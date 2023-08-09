@@ -184,3 +184,15 @@ sudo apt update
 sudo apt upgrade
 sudo apt-get install openssh-server
 sudo systemctl status ssh
+
+// Step 10: Installing dotnet
+wget https://dot.net/v1/dotnet-install.sh -O dotnet-install.sh
+sudo chmod +x ./dotnet-install.sh
+
+./dotnet-install.sh --version latest
+
+./dotnet-install.sh --version latest --runtime aspnetcore
+
+// Vous pouvez installer une version majeure spécifique avec le paramètre --channel pour indiquer la version spécifique. La commande suivante installe le SDK .NET 7.0.
+// Bash
+./dotnet-install.sh --channel 7.0
