@@ -219,3 +219,33 @@ sudo add-apt-repository --yes --update ppa:ansible/ansible--
 sudo apt install ansible -y
 sudo apt install python3-boto3
 sudo apt install python3-botocore
+
+// Step 13: Free space
+sudo apt-get autoremove
+sudo apt-get autoclean
+sudo apt-get clean
+sudo journalctl --vacuum-time=3d
+// du -sh ~/.cache/thumbnails
+rm -rf ~/.cache/thumbnails/*
+
+// Step 14: Installing MicroK8s
+// Get set up for snaps
+sudo apt update
+sudo apt install snapd
+sudo snap install microk8s --classic
+
+// microk8s status --wait-ready
+// Turn on the services you want
+microk8s enable dashboard dns registry istio
+
+// Try microk8s enable --help for a list of available services and optional features. microk8s disable <name> turns off a service.
+// Start using Kubernetes
+microk8s kubectl get all --all-namespaces
+
+// If you mainly use MicroK8s you can make our kubectl the default one on your command-line with alias mkctl="microk8s kubectl". Since it is a standard upstream kubectl, you can also drive other Kubernetes clusters with it by pointing to the respective kubeconfig file via the --kubeconfig argument.
+// Access the Kubernetes dashboard
+microk8s dashboard-proxy
+
+// Start and stop Kubernetes to save battery
+microk8s start 
+microk8s stop
