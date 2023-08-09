@@ -1,1 +1,1 @@
-# linuxsh
+# linuxscripts
