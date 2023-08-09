@@ -7,8 +7,8 @@ sudo apt install openjdk-11-jdk -y
 // Step 2: Add Jenkins Repository
 curl -fsSL https://pkg.jenkins.io/debian-stable/jenkins.io.key | sudo tee /usr/share/keyrings/jenkins-keyring.asc > /dev/null
 echo deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc] https://pkg.jenkins.io/debian-stable binary/ | sudo tee /etc/apt/sources.list.d/jenkins.list > /dev/null
-/
-/ Step 3: Install Jenkins
+
+// Step 3: Install Jenkins
 sudo apt update
 sudo apt install jenkins -y
 // To check status, type:
@@ -182,17 +182,40 @@ sudo systemctl status sonarqube.service
 // Step 9: Installing OpenSSH
 sudo apt update
 sudo apt upgrade
-sudo apt-get install openssh-server
+sudo apt-get install openssh-server openssh-client
 sudo systemctl status ssh
+sudo ufw allow ssh
 
 // Step 10: Installing dotnet
 wget https://dot.net/v1/dotnet-install.sh -O dotnet-install.sh
 sudo chmod +x ./dotnet-install.sh
-
 ./dotnet-install.sh --version latest
-
+// or
 ./dotnet-install.sh --version latest --runtime aspnetcore
 
 // Vous pouvez installer une version majeure spécifique avec le paramètre --channel pour indiquer la version spécifique. La commande suivante installe le SDK .NET 7.0.
-// Bash
 ./dotnet-install.sh --channel 7.0
+
+// Step 11: Installing Terraform
+sudo apt-get update && sudo apt-get install -y gnupg software-properties-common
+wget -O- https://apt.releases.hashicorp.com/gpg | \
+gpg --dearmor | \
+sudo tee /usr/share/keyrings/hashicorp-archive-keyring.gpg
+
+gpg --no-default-keyring \
+--keyring /usr/share/keyrings/hashicorp-archive-keyring.gpg \
+--fingerprint
+
+echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] \
+https://apt.releases.hashicorp.com $(lsb_release -cs) main" | \
+sudo tee /etc/apt/sources.list.d/hashicorp.list
+sudo apt update
+sudo apt-get install terraform
+// terraform -help
+
+// Step 12: Installing Ansible and Boto
+sudo apt install software-properties-common--
+sudo add-apt-repository --yes --update ppa:ansible/ansible--
+sudo apt install ansible -y
+sudo apt install python3-boto3
+sudo apt install python3-botocore
